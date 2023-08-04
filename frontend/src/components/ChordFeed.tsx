@@ -10,25 +10,15 @@ interface feedProps {
 }
 
 export function ChordFeed({ changes, paused, currentChordIndex }: feedProps) {
-    const positions = [
-        "-translate-x-[0]",
-        "-translate-x-[0]",
-        "-translate-x-[0]",
-        "translate-x-[0]",
-        "translate-x-[0]"
-    ];
 
-    useEffect(() => {
-        console.log('changed paused', paused);
-    }, [paused]);
+    const positions = 5;
 
     function chordsToDisplay() {
         return [...getLeftAdjacentChords(), changes[currentChordIndex], ...getRightAdjacentChords()];
-
     }
 
     function getLeftAdjacentChords() {
-        const adjacent = Math.round(positions.length / 2) - 1;
+        const adjacent = Math.round(positions / 2) - 1;
         if (currentChordIndex - adjacent < 0) {
             if (currentChordIndex - adjacent == -1) {
                 // There is only one element that doesn't exist
@@ -40,7 +30,7 @@ export function ChordFeed({ changes, paused, currentChordIndex }: feedProps) {
     }
 
     function getRightAdjacentChords() {
-        const adjacent = Math.round(positions.length / 2) - 1;
+        const adjacent = Math.round(positions / 2) - 1;
         if (currentChordIndex + adjacent > changes.length - 1) {
             if (currentChordIndex + adjacent == changes.length) {
                 // There is only one element that doesn't exist
@@ -65,7 +55,7 @@ export function ChordFeed({ changes, paused, currentChordIndex }: feedProps) {
         return frets;
     }
 
-    return <div className="w-full flex justify-between">
+    return <div key={currentChordIndex} className="w-full flex justify-between overflow-hidden">
         {chordsToDisplay().map((change, index) => {
             console.log(change, change == "filler");
             if (change == 'filler') {
@@ -73,14 +63,15 @@ export function ChordFeed({ changes, paused, currentChordIndex }: feedProps) {
             }
             const chord = change as ChordChange;
 
-            const isMiddle = index == Math.round(positions.length / 2) - 1;
-            const width = isMiddle ? "w-3/4" : "w-2/6";
+            const isMiddle = index == Math.round(positions / 2) - 1;
+            let width = isMiddle ? "w-3/4" : "w-2/6";
+            width = "w-2/6";
 
             // TODO:
             // - add fingers to API
             // - using chord name + change id doesn't seem like a good idea
-            return <div key={chord.chord.name + chord.id} className={"w-1/5 flex justify-center duration-500 " + positions[index]}>
-                <div className={width + " duration-500"}>
+            return <div key={chord.chord.name + chord.id} className={"w-1/5 flex justify-center"} style={{ animation: "slide 200ms linear forwards", animationPlayState: paused ? "paused" : "running" }}>
+                <div className={width + " duration-500"} style={{ animation: isMiddle ? "scale 200ms linear forwards" : "", animationPlayState: paused ? "paused" : "running" }}>
                     <p className="text-center text-white">{chord.chord.name}</p>
                     <Chord barres={[]} capo={false} fingers={[0, 0, 0, 0, 0, 0]} frets={shapeToFrets(chord.chord.shape)} />
                     {isMiddle && <div className="relative w-full h-4 bg-gray-900 rounded-full overflow-hidden">
