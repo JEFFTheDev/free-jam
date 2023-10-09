@@ -15,7 +15,7 @@ export class SongProfile {
 
 export class ChordChange {
     id!: number;
-    atMiliseconds!: number;
+    atMilliseconds!: number;
     duration!: number;
     chord!: GuitarChord;
 }

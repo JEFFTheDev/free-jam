@@ -40,7 +40,7 @@ export function SongProfilePlayer({ artist, title }: songProfilePlayerProps) {
             return;
         }
 
-        if (currentSongTime >= (next.atMiliseconds / 1000)) {
+        if (currentSongTime >= (next.atMilliseconds / 1000)) {
             // song has reached the point where the next chord needs to be rendered
             setCurrentChordIndex(currentChordIndex + 1);
             clearInterval(interval);

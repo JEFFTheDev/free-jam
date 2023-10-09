@@ -58,11 +58,46 @@ export function Chord({ frets, fingers, barres, capo }: any) {
 
         updateSvgColors();
         setPostProcessingDone(true);
-    }, [])
+    }, []);
+
+    function lowestFret(frets : any) : any {
+        let lowest : any = null;
+        frets.forEach((fret : any) => {
+            if (lowest == null || fret < lowest && fret > 0) {
+                lowest = fret;
+            }
+        });
+        return lowest;
+    }
+
+    // Find the lowest fret and check if the base fret needs to be adjusted
+    let lowest : any = null;
+    frets.forEach((fret : any) => {
+        if ((lowest == null || fret < lowest) && fret > 0) {
+            lowest = fret;
+        }
+    });
+    if (lowest != null && lowest > 1) {
+        // Correct the frets in the fret list since the base fret will now be passed
+        let correctedFrets : any = [];
+        frets.forEach((fret : any) => {
+            if (fret > 0) {
+                correctedFrets.push(fret - (lowest - 1))
+            } else {
+                correctedFrets.push(fret);
+            }
+        });
+
+        console.log('c:', frets, 'corrected', correctedFrets, 'basefret', lowest);
+        frets = correctedFrets;
+    }
+
+   
 
     return (
         <div ref={svgContainerRef}>
             <TsChord
+                baseFret={lowest > 1 ? lowest : undefined}
                 frets={frets}
                 fingers={fingers}
                 barres={barres}

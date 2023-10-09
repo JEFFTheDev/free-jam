@@ -15,13 +15,13 @@ function App() {
   function view() {
     switch (currentView) {
       case "SongLibrary":
-        return <SongLibrary onSongSelected={(title: string, artist: string) => {
+        return withNavigation(<SongLibrary onSongSelected={(title: string, artist: string) => {
           setCurrentSong({
             artist: artist,
             title: title
           });
           setCurrentView("SongProfilePlayer");
-        }} />
+        }} />)
       case "SongProfilePlayer":
         if (!currentSong) {
           return <p>no song</p>
@@ -30,8 +30,12 @@ function App() {
     }
   }
 
+  function withNavigation(el: JSX.Element): JSX.Element {
+    return el
+  }
+
   return (
-    <div className="App w-full h-full">
+    <div className="App w-full h-full p-6">
       {view()}
     </div>
   );
