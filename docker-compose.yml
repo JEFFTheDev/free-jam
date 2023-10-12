@@ -4,7 +4,7 @@ services:
   caddy:
     image: caddy:alpine
     ports:
-      - 3010:80
+      - 80:80
     volumes:
       - ./tools/caddy:/etc/caddy
   # debug:
@@ -23,14 +23,11 @@ services:
       - MINIO_ROOT_PASSWORD=password
     ports:
       - 9090:9090
-      - 9000:9000
     command: server /data --console-address ":9090"
   backend:
       build:
         context: ./backend
         dockerfile: Dockerfile
-      # ports:
-      #   - 5074:5074
       volumes:
         - ./backend:/app
       environment:
@@ -39,12 +36,17 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    # ports:
-    #   - 3000:3000
     volumes:
       - ./frontend:/app
-  # data-seed:
-  #   volumes:
-  #     - ./tools/seed-data:/app
-  #   # work-dir: /app
-  #   command: ['npm', 'install', '&&', 'seed.js']
+  data-seed:
+    build:
+      context: ./tools/seed-data
+      dockerfile: Dockerfile
+    volumes:
+      - ./tools/seed-data:/app
+
+# TODO:
+# - data-seed should wait until API is online
+# - data-seed should not do anything if there is already data in the API
+# - migration auto applied by backend
+# - auto bucket creation by backend

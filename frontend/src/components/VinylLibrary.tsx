@@ -53,20 +53,3 @@ function VinylCard({ onVinylSelected: onVinylSelected, album }: cardProps) {
         </div>
     );
 }
-
-// function vinylBackground() {
-//     return "http://127.0.0.1:9000/utilities/vinyl.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=BHCU40EIUNILEZLHW43X%2F20231009%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231009T093742Z&X-Amz-Expires=604800&X-Amz-Security-Token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJCSENVNDBFSVVOSUxFWkxIVzQzWCIsImV4cCI6MTY5Njg4NjAwOSwicGFyZW50Ijoicm9vdCJ9.JaGEjI8GTanxRARUvcqDydc2v1VbARsbi3ltCpa9MnniHrzWq2ioUo2-KG328-YrAvZ--7Bzd-vw3ivv3onjeA&X-Amz-SignedHeaders=host&versionId=null&X-Amz-Signature=e7059e65bb392f9235eefb5f444909d82207e9652e247ed5a28dc94e9b1bcb14"
-// }
-
-// // TODO: add bucket url to env
-// function albumCover(albumCoverId?: string) {
-//     return "http://localhost:9000/album-covers/" + albumCoverId;
-// }
-
-// function genericVinylImage() {
-//     return "http://localhost:9000/utilities/generic.jpg"
-// }
-
-// // function youtubeThumbnailFromVideoId(videoId: string) {
-// //     return "https://img.youtube.com/vi/" + videoId + "/mqdefault.jpg";
-// // }

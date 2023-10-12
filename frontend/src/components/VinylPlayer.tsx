@@ -47,30 +47,40 @@ export function VinylPlayer({ album }: vinylPlayerProps) {
         return `translate(${x}em, ${y}em)`;
     }
 
-    return <div className='grid grid-cols-4 gap-4 grid-rows-2'>
-        <div className='col-span-4'>
-            <div className='w-fit mx-auto'>
-                <div className="text-xl font-bold">Now Playing</div>
-                <img className='aspect-square' src={BucketService.getAlbumCoverUrl(album.imageUrl)} />
-                <div className="text-lg">{album.title}</div>
-                <div className="text-sm font-thin">{album.artist}</div>
+    return <div className='grid grid-cols-3 m-auto w-3/4 h-2/4'>
+        <div className='col-span-3'>
+            <span className="uppercase text-2xl font-bold block">
+                {album.title}
+            </span>
+            <span className="text-xl block">
+                {album.artist}
+            </span>
+            <span className="text-sm block">
+                2000
+            </span>
+        </div>
+        <div className='col-span-2'>
+            <div className='relative aspect-square rounded'>
+                <img className="w-2/4 h-2/4 absolute inset-0 z-10"
+                    src={BucketService.getAlbumCoverUrl(album.imageUrl)}
+                    onError={({ currentTarget }) => {
+                        currentTarget.onerror = null;
+                        currentTarget.src = "generic-vinyl.jpg";
+                    }} />
+                <img className='w-2/4 h-2/4 absolute inset-0 z-0 translate-x-36' src="vinyl.png" />
             </div>
         </div>
-        <div className={'col-span-2 row-span-1'}>
-            <button onClick={() => { wheelForward() }}>forward</button>
-                <button onClick={() => { wheelBackward() }}>backward</button>
-            {/* <img className='aspect-square w-2/4' /> */}
-        </div>
-        <div className='col-span-2 row-span-1 overflow-hidden'>
-            <div className='mb-0'>
-            <div className='relative'>
-                {songs.map((song, i) => {
-                    return <div key={song + i}
-                        style={{ transform: songItemTranslation(i) }}
-                        className={'text-white cursor-pointer absolute bg-red-400 p-4 rounded-md transform transition-transform duration-300 ease-in-out'}>{song}</div>
-                })}
-            </div>
-            </div>
+        <div className='col-span-1'>
+                <div className='m-auto text-center h-2/4 overflow-y-scroll'>
+                    {songs.map((song, i) => {
+                        return <div key={song + i}
+                            // style={{ transform: songItemTranslation(i) }}
+                            className={'text-white m-3 cursor-pointer bg-gradient-to-r w-96 uppercase font-bold from-pink-500 to-yellow-500 p-4 rounded-md transform transition-transform duration-300 ease-in-out flex justify-between'}>
+                            <span>{song}</span>
+                            <button>Play</button>
+                        </div>
+                    })}
+                </div>
         </div>
     </div>
 }

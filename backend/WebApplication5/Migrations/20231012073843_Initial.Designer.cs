@@ -12,8 +12,8 @@ using WebApplication5;
 namespace WebApplication5.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231003092237_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231012073843_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,34 @@ namespace WebApplication5.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("WebApplication5.Entities.Album", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Artist")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Released")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Albums");
+                });
 
             modelBuilder.Entity("WebApplication5.Entities.ChordChange", b =>
                 {
@@ -84,8 +112,8 @@ namespace WebApplication5.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Album")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("AlbumId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Artist")
                         .HasColumnType("nvarchar(max)");
@@ -100,6 +128,8 @@ namespace WebApplication5.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
 
                     b.ToTable("Songs");
                 });
@@ -135,6 +165,15 @@ namespace WebApplication5.Migrations
                         .HasForeignKey("SongProfileId");
 
                     b.Navigation("Chord");
+                });
+
+            modelBuilder.Entity("WebApplication5.Entities.Song", b =>
+                {
+                    b.HasOne("WebApplication5.Entities.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId");
+
+                    b.Navigation("Album");
                 });
 
             modelBuilder.Entity("WebApplication5.Entities.SongProfile", b =>

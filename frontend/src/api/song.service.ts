@@ -64,4 +64,4 @@ class _SongService {
     }
 }
 
-export const SongService = new _SongService("http://localhost:5074/");
+export const SongService = new _SongService("http://localhost/api");

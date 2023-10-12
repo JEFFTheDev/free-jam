@@ -1,15 +1,14 @@
-console.log('start data seed');
+console.log('Start data seed');
 
 const fs = require('fs');
-// const fetch = require('node-fetch');
 const Minio = require('minio');
 
 const minioClient = new Minio.Client({
-  endPoint: 'localhost',
+  endPoint: 'bucket',
   port: 9000, // Default MinIO port
   useSSL: false, // Set to true if using HTTPS
-  accessKey: 'RQxhKTStRaXrnAK3ofHh',
-  secretKey: 'rBNJ3aG7dhBefcwSEE6mSt76AxQu1P6rUHaSAyq5',
+  accessKey: 'root',
+  secretKey: 'password',
 });
 
 fs.readFile('data.json', 'utf8', (err, data) => {
@@ -41,7 +40,7 @@ fs.readFile('data.json', 'utf8', (err, data) => {
 });
 
 function postAlbum(album) {
-  const url = 'http://localhost:5074/album';
+  const url = 'http://backend:5074/album';
   const requestOptions = {
     method: 'POST',
     headers: {
