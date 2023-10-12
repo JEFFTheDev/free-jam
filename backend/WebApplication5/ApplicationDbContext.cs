@@ -10,6 +10,8 @@ namespace WebApplication5
         {
         }
 
+        public DbSet<Album> Albums { get; set; }
+
         public DbSet<Song> Songs { get; set; }
         public DbSet<SongProfile> SongProfiles { get; set; }
         public DbSet<GuitarChord> GuitarChords { get; set; }

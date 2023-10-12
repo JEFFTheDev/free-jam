@@ -1,0 +1,50 @@
+[
+    {
+        "title": "Adore",
+        "artist": "The Smashing Pumpkins",
+        "date": "",
+        "coverImage": "adore.jpg"
+    },
+    {
+        "title": "Bleach",
+        "artist": "Nirvana",
+        "date": "",
+        "coverImage": "bleach.jpg"
+    },
+    {
+        "title": "OK Computer",
+        "artist": "Radiohead",
+        "date": "",
+        "coverImage": "ok-computer.jpg"
+    },
+    {
+        "title": "Doolittle",
+        "artist": "Pixies",
+        "date": "",
+        "coverImage": "doolittle.jpg"
+    },
+    {
+        "title": "Together Through Time",
+        "artist": "TWRP",
+        "date": "",
+        "coverImage": "together-through-time.jpg"
+    },
+    {
+        "title": "In Rainbows",
+        "artist": "Radiohead",
+        "date": "",
+        "coverImage": "in-rainbows.png"
+    },
+    {
+        "title": "Mellon Collie and the Infinite Sadness",
+        "artist": "The Smashing Pumpkins",
+        "date": "",
+        "coverImage": "mellon-collie.jpg"
+    },
+    {
+        "title": "The Colour and the Shape",
+        "artist": "Foo Fighters",
+        "date": "",
+        "coverImage": "colour-and-shape.jpg"
+    }
+]

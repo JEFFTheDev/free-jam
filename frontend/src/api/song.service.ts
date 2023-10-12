@@ -1,10 +1,16 @@
 import axios, { AxiosInstance } from "axios";
 import { plainToInstance, Type } from "class-transformer";
 
+export class Album {
+    title!: string;
+    artist!: string;
+    imageUrl!: string;
+}
+
 export class Song {
     title!: string;
     artist!: string;
-    album?: string;
+    album?: Album;
     videoId?: string;
 }
 
@@ -32,6 +38,12 @@ class _SongService {
         this.r = axios.create({
             baseURL: baseURL,
         });
+    }
+
+    async listALbums(): Promise<Album[]> {
+        const res = await this.r.get<any[]>("/album");
+        const data = res.data.map((album) => plainToInstance(Album, album));
+        return data;
     }
 
     async listSongs(): Promise<Song[]> {
