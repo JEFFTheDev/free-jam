@@ -12,6 +12,8 @@ services:
   #   command: ['sleep', '9999']
   db:
     image: mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+    ports:
+      - 1433:1433
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=sSXf2q8gA6jQZ5
@@ -24,14 +26,14 @@ services:
     ports:
       - 9090:9090
     command: server /data --console-address ":9090"
-  backend:
-      build:
-        context: ./backend
-        dockerfile: Dockerfile
-      volumes:
-        - ./backend:/app
-      environment:
-        - ASPNETCORE_ENVIRONMENT=Development
+  # backend:
+  #     build:
+  #       context: ./backend
+  #       dockerfile: Dockerfile
+  #     volumes:
+  #       - ./backend:/app
+  #     environment:
+  #       - ASPNETCORE_ENVIRONMENT=Development
   frontend:
     build:
       context: ./frontend
@@ -50,3 +52,8 @@ services:
 # - data-seed should not do anything if there is already data in the API
 # - migration auto applied by backend
 # - auto bucket creation by backend
+
+# TODO vandaag;
+# - figma
+# - doc tool
+# - misschien wat onderzoek naar hoe chord detecteren?

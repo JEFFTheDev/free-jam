@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using WebApplication5.DTOs;
+using WebApplication5.Interfaces;
 using WebApplication5.Models;
 
 namespace WebApplication5.Controllers
@@ -9,49 +11,44 @@ namespace WebApplication5.Controllers
     [Route("[controller]")]
     public class SongProfileController : ControllerBase
     {
-        // private readonly ILogger<SongProfileController> _logger;
-        // private readonly ApplicationDbContext _dbContext;
+        private readonly ILogger<SongProfileController> _logger;
+        private readonly ISongProfileService _songProfileService;
 
-        // public SongProfileController(ILogger<SongProfileController> logger, ApplicationDbContext dbContext)
-        // {
-        //     _logger = logger;
-        //     _dbContext = dbContext;
-        // }
+        public SongProfileController(ILogger<SongProfileController> logger, ISongProfileService songProfileService)
+        {
+            this._logger = logger;
+            this._songProfileService = songProfileService;
+        }
+        [HttpPost]
+        public async Task<ActionResult<SongProfileDto>> Post(SongProfileDto songProfile)
+        {
+            _logger.LogInformation($"Attempting to add: {songProfile}");
 
-        // [HttpGet]
-        // public async Task<ActionResult<SongProfile>> Get(string artist, string title)
-        // {
-        //     if (string.IsNullOrWhiteSpace(artist))
-        //     {
-        //         return new BadRequestResult();
-        //     }
+            // if (!_songService.Exists()) {
 
-        //     if (string.IsNullOrWhiteSpace(title))
-        //     {
-        //         return new BadRequestResult();
-        //     }
+            // }
 
-        //     var songProfile = await _dbContext.SongProfiles
-        //         .Include(x => x.Song)
-        //         .Where(x => x.Song.Artist == artist && x.Song.Title == title)
-        //         .Include(x => x.Changes)
-        //         .ThenInclude(x => x.Chord)
-        //         .FirstOrDefaultAsync();
-        //     if (songProfile == null)
-        //     {
-        //         return new NotFoundResult();
-        //     }
+            if (songProfile.Song == null) {
+                return BadRequest("Song must be included");
+            }
 
-        //     return songProfile;
-        // }
-        // [HttpPost]
-        // public async Task<ActionResult<SongProfile>> Post(SongProfile songProfile)
-        // {
-        //     _logger.LogInformation($"Attempting to add: {songProfile}");
-        //     _dbContext.SongProfiles.Add(songProfile);
-        //     await _dbContext.SaveChangesAsync();
-        //     _logger.LogInformation($"Created Song: {songProfile}");
-        //     return CreatedAtAction(nameof(Post), songProfile);
-        // }
+            if (songProfile.Changes == null) {
+                return BadRequest("Changes must be included");
+            }
+
+            if (songProfile.Chords == null) {
+                return BadRequest("Chords must be included");
+            }
+            
+            _logger.LogInformation($"stuff{songProfile.Changes!.MaxBy(x => x.ChordIndex + 1)?.ChordIndex} {songProfile.Chords.Count()}");
+            if (songProfile.Changes!.MaxBy(x => x.ChordIndex)?.ChordIndex + 1 != songProfile.Chords.Count()) {
+                return BadRequest("Chord change chord indexes do not match chords");
+            }
+
+            await this._songProfileService.Add(songProfile);
+
+            _logger.LogInformation($"Created Song Profile: {songProfile}");
+            return CreatedAtAction(nameof(Post), songProfile);
+        }
     }
 }

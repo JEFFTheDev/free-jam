@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { ChordChange, Song, SongProfile, SongService } from '../api/song.service';
+import { Album, ChordChange, Song, SongProfile, SongService } from '../api/song.service';
 import YouTube, { YouTubeEvent, YouTubePlayer } from 'react-youtube';
 import { ChordFeed } from './ChordFeed';
 import { PlayPauseIcon } from '@heroicons/react/24/solid'
 
 interface songProfilePlayerProps {
-    artist: string;
-    title: string;
+    album: Album;
+    song: Song;
 }
-export function SongProfilePlayer({ artist, title }: songProfilePlayerProps) {
+export function SongProfilePlayer({ album, song }: songProfilePlayerProps) {
     const [profile, setSongProfile] = useState<SongProfile>();
     const [paused, setPaused] = useState<boolean>(true);
     const [videoPlayer, setVideoPlayer] = useState<YouTubePlayer>();
@@ -71,7 +71,7 @@ export function SongProfilePlayer({ artist, title }: songProfilePlayerProps) {
     }
 
     useEffect(() => {
-        SongService.songProfileByArtistAndTitle(artist, title).then((profile) => {
+        SongService.songProfileByArtistAndTitle(album.artist, song.title).then((profile) => {
             setSongProfile(profile);
         });
     }, []);

@@ -1,50 +1,229 @@
-[
-    {
-        "title": "Adore",
-        "artist": "The Smashing Pumpkins",
-        "date": "",
-        "coverImage": "adore.jpg"
-    },
-    {
-        "title": "Bleach",
-        "artist": "Nirvana",
-        "date": "",
-        "coverImage": "bleach.jpg"
-    },
-    {
-        "title": "OK Computer",
-        "artist": "Radiohead",
-        "date": "",
-        "coverImage": "ok-computer.jpg"
-    },
-    {
-        "title": "Doolittle",
-        "artist": "Pixies",
-        "date": "",
-        "coverImage": "doolittle.jpg"
-    },
-    {
-        "title": "Together Through Time",
-        "artist": "TWRP",
-        "date": "",
-        "coverImage": "together-through-time.jpg"
-    },
-    {
-        "title": "In Rainbows",
-        "artist": "Radiohead",
-        "date": "",
-        "coverImage": "in-rainbows.png"
-    },
-    {
-        "title": "Mellon Collie and the Infinite Sadness",
-        "artist": "The Smashing Pumpkins",
-        "date": "",
-        "coverImage": "mellon-collie.jpg"
-    },
-    {
-        "title": "The Colour and the Shape",
-        "artist": "Foo Fighters",
-        "date": "",
-        "coverImage": "colour-and-shape.jpg"
-    }
-]
+{
+    "albums": [
+        {
+            "title": "Adore",
+            "artist": "The Smashing Pumpkins",
+            "releaseDate": "1998-06-02T13:05:12.649Z",
+            "imageUrl": "adore.jpg",
+            "songs": [
+                {
+                    "title": "To Sheila",
+                    "videoId": "oizHolaZQJQ"
+                },
+                {
+                    "title": "Ava Adore",
+                    "videoId": "9uWwvQKGjLI"
+                },
+                {
+                    "title": "Daphne Descends",
+                    "videoId": "Hn7CZmkD970"
+                },
+                {
+                    "title": "Tear",
+                    "videoId": "5Ds-fPZUdb0"
+                },
+                {
+                    "title": "Crestfallen",
+                    "videoId": "XAaCAms97_U"
+                }
+            ]
+        },
+        {
+            "title": "Bleach",
+            "artist": "Nirvana",
+            "releaseDate": "1989-01-23T13:05:12.649Z",
+            "imageUrl": "bleach.jpg",
+            "songs": [
+                {
+                    "title": "Blew",
+                    "videoId": "QVlo81A5mHc"
+                },
+                {
+                    "title": "Floyd the Barber",
+                    "videoId": "qofd8l27ieY"
+                },
+                {
+                    "title": "About a Girl",
+                    "videoId": "t_U5ZIo77UM"
+                },
+                {
+                    "title": "School",
+                    "videoId": "DeoWhvsyOZ8"
+                },
+                {
+                    "title": "Love Buzz",
+                    "videoId": "ZEh3mO9MPV0"
+                }
+            ]
+        },
+        {
+            "title": "OK Computer",
+            "artist": "Radiohead",
+            "releaseDate": "1997-09-04T13:05:12.649Z",
+            "imageUrl": "ok-computer.jpg",
+            "songs": [
+                {
+                    "title": "Airbag",
+                    "videoId": "bF4CBlPznyA"
+                },
+                {
+                    "title": "Paranoid Android",
+                    "videoId": "fHiGbolFFGw"
+                },
+                {
+                    "title": "Subterranean Homesick Alien",
+                    "videoId": "2Y6Obk_WeC0"
+                },
+                {
+                    "title": "Exit Music (For a Film)",
+                    "videoId": "16izdtkzEz8"
+                },
+                {
+                    "title": "Let Down",
+                    "videoId": "n9Xgj8RRgmE"
+                }
+            ]
+        },
+        {
+            "title": "Doolittle",
+            "artist": "Pixies",
+            "releaseDate": "1989-04-17T00:00:00Z",
+            "imageUrl": "doolittle.jpg",
+            "songs": [
+                {
+                    "title": "Debaser",
+                    "videoId": "tPgf_btTFlc"
+                },
+                {
+                    "title": "Tame",
+                    "videoId": "tPgf_btTFlc"
+                },
+                {
+                    "title": "Wave of Mutilation",
+                    "videoId": "tPgf_btTFlc"
+                },
+                {
+                    "title": "Here Comes Your Man",
+                    "videoId": "tPgf_btTFlc"
+                },
+                {
+                    "title": "Dead",
+                    "videoId": "tPgf_btTFlc"
+                }
+            ]
+        },
+        {
+            "title": "Together Through Time",
+            "artist": "TWRP",
+            "releaseDate": "2018-05-18T00:00:00Z",
+            "imageUrl": "together-through-time.jpg",
+            "songs": [
+                {
+                    "title": "Synthesize Her",
+                    "videoId": "s2I09yhd7LY"
+                },
+                {
+                    "title": "Phantom Racer",
+                    "videoId": "s2I09yhd7LY"
+                },
+                {
+                    "title": "Atomic Karate",
+                    "videoId": "s2I09yhd7LY"
+                },
+                {
+                    "title": "Believe in Your Dreams",
+                    "videoId": "s2I09yhd7LY"
+                },
+                {
+                    "title": "Life Party",
+                    "videoId": "s2I09yhd7LY"
+                }
+            ]
+        },
+        {
+            "title": "In Rainbows",
+            "artist": "Radiohead",
+            "releaseDate": "2007-10-10T00:00:00Z",
+            "imageUrl": "in-rainbows.png",
+            "songs": [
+                {
+                    "title": "15 Step",
+                    "videoId": "GoLJJRIWCLU"
+                },
+                {
+                    "title": "Bodysnatchers",
+                    "videoId": "GoLJJRIWCLU"
+                },
+                {
+                    "title": "Nude",
+                    "videoId": "GoLJJRIWCLU"
+                },
+                {
+                    "title": "Weird Fishes/Arpeggi",
+                    "videoId": "GoLJJRIWCLU"
+                },
+                {
+                    "title": "All I Need",
+                    "videoId": "GoLJJRIWCLU"
+                }
+            ]
+        },
+        {
+            "title": "Mellon Collie and the Infinite Sadness",
+            "artist": "The Smashing Pumpkins",
+            "releaseDate": "1995-10-24T00:00:00Z",
+            "imageUrl": "mellon-collie.jpg",
+            "songs": [
+                {
+                    "title": "Mellon Collie and the Infinite Sadness",
+                    "videoId": "8-r-V0uK4u0"
+                },
+                {
+                    "title": "Tonight, Tonight",
+                    "videoId": "8-r-V0uK4u0"
+                },
+                {
+                    "title": "Jellybelly",
+                    "videoId": "8-r-V0uK4u0"
+                },
+                {
+                    "title": "Zero",
+                    "videoId": "8-r-V0uK4u0"
+                },
+                {
+                    "title": "Bullet with Butterfly Wings",
+                    "videoId": "8-r-V0uK4u0"
+                }
+            ]
+        },
+        {
+            "title": "The Colour and the Shape",
+            "artist": "Foo Fighters",
+            "releaseDate": "1997-05-20T00:00:00Z",
+            "imageUrl": "colour-and-shape.jpg",
+            "songs": [
+                {
+                    "title": "Doll",
+                    "videoId": "eBG7P-K-r1Y"
+                },
+                {
+                    "title": "Monkey Wrench",
+                    "videoId": "eBG7P-K-r1Y"
+                },
+                {
+                    "title": "Hey, Johnny Park!",
+                    "videoId": "eBG7P-K-r1Y"
+                },
+                {
+                    "title": "My Poor Brain",
+                    "videoId": "eBG7P-K-r1Y"
+                },
+                {
+                    "title": "Wind Up",
+                    "videoId": "eBG7P-K-r1Y"
+                }
+            ]
+        }
+    ],
+    "songProfiles": []
+}

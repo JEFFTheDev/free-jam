@@ -1,32 +1,18 @@
 import { useEffect, useState } from 'react';
 import { BucketService } from '../api/buckets.service';
-import { Album } from '../api/song.service';
+import { Album, Song } from '../api/song.service';
 
 interface vinylPlayerProps {
+    onSongSelected(song: Song): void;
     album: Album;
 }
 
-const songs = [
-    "song1",
-    "song2",
-    "song3",
-    "song4",
-    "song5",
-    "song6",
-    "song7",
-    "song8",
-    "song9",
-    "song10",
-    "song11",
-    "song12"
-]
-
-export function VinylPlayer({ album }: vinylPlayerProps) {
+export function VinylPlayer({ onSongSelected, album }: vinylPlayerProps) {
 
     const [wheelOffset, setWheelOffset] = useState(0);
 
     function wheelForward() {
-        if (wheelOffset + 1 >= songs.length) {
+        if (wheelOffset + 1 >= album.songs.length) {
             return;
         }
         console.log(wheelOffset + 1);
@@ -42,8 +28,8 @@ export function VinylPlayer({ album }: vinylPlayerProps) {
     }
 
     function songItemTranslation(songIndex: number) {
-        const x = Math.cos((Math.PI / songs.length) * (songIndex - wheelOffset)) * 15;
-        const y = Math.sin((Math.PI / songs.length) * (songIndex - wheelOffset)) * 15;
+        const x = Math.cos((Math.PI / album.songs.length) * (songIndex - wheelOffset)) * 15;
+        const y = Math.sin((Math.PI / album.songs.length) * (songIndex - wheelOffset)) * 15;
         return `translate(${x}em, ${y}em)`;
     }
 
@@ -56,7 +42,7 @@ export function VinylPlayer({ album }: vinylPlayerProps) {
                 {album.artist}
             </span>
             <span className="text-sm block">
-                2000
+                {new Date(album.releaseDate).getFullYear()}
             </span>
         </div>
         <div className='col-span-2'>
@@ -72,12 +58,12 @@ export function VinylPlayer({ album }: vinylPlayerProps) {
         </div>
         <div className='col-span-1'>
                 <div className='m-auto text-center h-2/4 overflow-y-scroll'>
-                    {songs.map((song, i) => {
-                        return <div key={song + i}
+                    {album.songs.map((song, i) => {
+                        return <div key={song.title}
                             // style={{ transform: songItemTranslation(i) }}
-                            className={'text-white m-3 cursor-pointer bg-gradient-to-r w-96 uppercase font-bold from-pink-500 to-yellow-500 p-4 rounded-md transform transition-transform duration-300 ease-in-out flex justify-between'}>
-                            <span>{song}</span>
-                            <button>Play</button>
+                            className={'text-white m-3 bg-gradient-to-r w-96 uppercase font-bold from-pink-500 to-yellow-500 p-4 rounded-md transform transition-transform duration-300 ease-in-out flex justify-between'}>
+                            <span>{song.title}</span>
+                            <button onClick={() => { onSongSelected(song) }}>Play</button>
                         </div>
                     })}
                 </div>

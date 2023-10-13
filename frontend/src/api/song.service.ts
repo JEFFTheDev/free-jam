@@ -4,13 +4,13 @@ import { plainToInstance, Type } from "class-transformer";
 export class Album {
     title!: string;
     artist!: string;
+    releaseDate!: string;
     imageUrl!: string;
+    songs!: Song[];
 }
 
 export class Song {
     title!: string;
-    artist!: string;
-    album?: Album;
     videoId?: string;
 }
 
@@ -40,7 +40,7 @@ class _SongService {
         });
     }
 
-    async listALbums(): Promise<Album[]> {
+    async listAlbums(): Promise<Album[]> {
         const res = await this.r.get<any[]>("/album");
         const data = res.data.map((album) => plainToInstance(Album, album));
         return data;
@@ -64,4 +64,4 @@ class _SongService {
     }
 }
 
-export const SongService = new _SongService("http://localhost/api");
+export const SongService = new _SongService("http://localhost:5074");

@@ -32,6 +32,7 @@ builder.Services.AddTransient<IChordRepository, Repository>();
 builder.Services.AddTransient<ISongRepository, Repository>();
 builder.Services.AddTransient<ISongProfileRepository, Repository>();
 builder.Services.AddTransient<IAlbumService, AlbumService>();
+builder.Services.AddTransient<ISongProfileService, SongProfileService>();
 
 var app = builder.Build();
 app.UseCors(x => x

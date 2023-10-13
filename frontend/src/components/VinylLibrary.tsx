@@ -11,7 +11,7 @@ export function VinylLibrary({ onVinylSelected: onVinylSelected }: vinylOverview
     const [albums, setAlbums] = useState<Album[]>([]);
 
     useEffect(() => {
-        SongService.listALbums().then((albums) => {
+        SongService.listAlbums().then((albums) => {
             setAlbums(albums);
         });
     }, []);
@@ -19,7 +19,7 @@ export function VinylLibrary({ onVinylSelected: onVinylSelected }: vinylOverview
     return <div className='w-full'>
         <div className="grid grid-cols-4 gap-6 content-center">
             {albums.map((album: any, i: number) => {
-                return <div key={i} className="col-span-1 flex justify-center"><VinylCard
+                return <div key={i} className="col-span-1"><VinylCard
                     onVinylSelected={onVinylSelected}
                     album={album} />
                 </div>
@@ -47,8 +47,8 @@ function VinylCard({ onVinylSelected: onVinylSelected, album }: cardProps) {
                 <img className='w-full h-full transform transition-transform duration-300 ease-in-out group-hover:translate-x-24 translate-x-6 z-0' src="vinyl.png" />
             </div>
             <div className="text-center font-sans truncate mt-3">
-                <div className="text-lg">{album.title}</div>
-                <div className="text-sm font-thin">{album.artist}</div>
+                <div className="text-lg text-white">{album.title}</div>
+                <div className="text-sm font-thin text-quaternary">{album.artist}</div>
             </div>
         </div>
     );

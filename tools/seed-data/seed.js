@@ -19,28 +19,64 @@ fs.readFile('data.json', 'utf8', (err, data) => {
 
   try {
     const jsonObject = JSON.parse(data);
-    jsonObject.forEach((item) => {
+
+    // Upload all albums that were included in the data set
+    console.log(jsonObject.albums);
+    jsonObject.albums.forEach((item) => {
       console.log(`Adding Album: ${item.title}`);
 
       // Upload the file to S3 bucket
-      uploadFile(item.coverImage);
+      uploadFile(item.imageUrl);
 
 
       // Post the album to the API
       postAlbum({
         title: item.title,
         artist: item.artist,
-        imageUrl: item.coverImage.replace(/\.\w+$/, '')
+        songs: item.songs,
+        releaseDate: item.releaseDate,
+        imageUrl: item.imageUrl.replace(/\.\w+$/, '')
       })
 
+    });
+
+    // Upload all song profiles that were included in the data set
+    jsonObject.songProfiles.forEach((item) => {
+      postSongProfile(item);
     });
   } catch (parseError) {
     console.error('Error parsing JSON:', parseError);
   }
 });
 
+function postSongProfile(songProfile) {
+  const url = 'http://backend:5074/songprofile';
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(songProfile),
+  };
+
+  console.log('Posting SongProfile: ' + JSON.stringify(songProfile));
+  fetch(url, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((responseData) => {
+      console.log('POST request successful. Response data:', responseData);
+    })
+    .catch((error) => {
+      console.error('Error:', error.message);
+    });
+}
+
 function postAlbum(album) {
-  const url = 'http://backend:5074/album';
+  const url = 'http://localhost:5074/album';
   const requestOptions = {
     method: 'POST',
     headers: {
