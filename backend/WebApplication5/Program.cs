@@ -3,6 +3,9 @@ using Amazon.S3;
 using Amazon.S3.Util;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5;
+using WebApplication5.Interfaces;
+using WebApplication5.Repositories;
+using WebApplication5.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +25,13 @@ builder.WebHost.UseUrls("http://*:5074");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer("server=db,1433;database=db;User Id=sa;Password=sSXf2q8gA6jQZ5;trusted_connection=false;Encrypt=False;Persist Security Info=False;"));
+builder.Services.AddDbContext<WebApplication5.Data.ApplicationDbContext>(options =>
+    options.UseSqlServer("server=localhost,1433;database=free-jam-db;User Id=sa;Password=sSXf2q8gA6jQZ5;trusted_connection=false;Encrypt=False;Persist Security Info=False;"));
+builder.Services.AddTransient<IAlbumRepository, Repository>();
+builder.Services.AddTransient<IChordRepository, Repository>();
+builder.Services.AddTransient<ISongRepository, Repository>();
+builder.Services.AddTransient<ISongProfileRepository, Repository>();
+builder.Services.AddTransient<IAlbumService, AlbumService>();
 
 var app = builder.Build();
 app.UseCors(x => x
@@ -40,8 +48,9 @@ if (app.Environment.IsDevelopment())
 }
 
 using var scope = app.Services.CreateScope();
-var db = scope.ServiceProvider.GetService<ApplicationDbContext>();
-if (db == null) {
+var db = scope.ServiceProvider.GetService<WebApplication5.Data.ApplicationDbContext>();
+if (db == null)
+{
     throw new Exception("Couldn't migrate database");
 }
 

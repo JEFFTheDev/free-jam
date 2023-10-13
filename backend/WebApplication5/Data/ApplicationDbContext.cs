@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication5.Entities;
+using WebApplication5.Models;
+using WebApplication5.Interfaces;
 
-namespace WebApplication5
+namespace WebApplication5.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -14,6 +15,7 @@ namespace WebApplication5
 
         public DbSet<Song> Songs { get; set; }
         public DbSet<SongProfile> SongProfiles { get; set; }
-        public DbSet<GuitarChord> GuitarChords { get; set; }
+        public DbSet<Chord> Chords { get; set; }
+        public DbSet<ChordChange> ChordChanges { get; set; }
     }
 }

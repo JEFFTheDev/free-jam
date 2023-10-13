@@ -1,4 +1,4 @@
-﻿namespace WebApplication5.Entities
+﻿namespace WebApplication5.Models
 {
     public class Song
     {

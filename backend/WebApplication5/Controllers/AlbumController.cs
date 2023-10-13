@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApplication5.Entities;
+using Microsoft.EntityFrameworkCore;
+using WebApplication5.Interfaces;
+using WebApplication5.Models;
+using WebApplication5.Services;
 
 namespace WebApplication5.Controllers
 {
@@ -8,43 +11,47 @@ namespace WebApplication5.Controllers
     public class AlbumController : ControllerBase
     {
         private readonly ILogger<AlbumController> _logger;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IAlbumService _albumService;
 
-        public AlbumController(ILogger<AlbumController> logger, ApplicationDbContext dbContext)
+        public AlbumController(ILogger<AlbumController> logger, IAlbumService _albumService)
         {
-            _logger = logger;
-            _dbContext = dbContext;
+            this._logger = logger;
+            this._albumService = _albumService;
         }
 
         [HttpGet]
-        public IEnumerable<Album> Get()
+        public async Task<IEnumerable<DTOs.AlbumDto>> Get()
         {
-            return _dbContext.Albums.ToArray();
+            return await _albumService.GetAll();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Album>> Post(Album Album)
+        public async Task<ActionResult<DTOs.AlbumDto>> Post(DTOs.AlbumDto album)
         {
-            if (string.IsNullOrWhiteSpace(Album.Artist))
+            if (string.IsNullOrWhiteSpace(album.Artist))
             {
-                return new BadRequestResult();
-            }
-            
-            if (string.IsNullOrWhiteSpace(Album.Title))
-            {
-                return new BadRequestResult();
+                return BadRequest("Artist cannot be empty");
             }
 
-            if (_dbContext.Albums.Any(x => x.Artist == Album.Artist && x.Title == Album.Title))
+            if (string.IsNullOrWhiteSpace(album.Title))
             {
-                return new BadRequestResult();
+                return BadRequest("Title cannot be empty");
             }
 
-            _logger.LogInformation($"Attempting to add: {Album}");
-            _dbContext.Albums.Add(Album);
-            await _dbContext.SaveChangesAsync();
-            _logger.LogInformation($"Created Album: {Album}");
-            return CreatedAtAction(nameof(Post), Album);
+            if (album.Songs.Length == 0)
+            {
+                return BadRequest("Songs must be included");
+            }
+
+            if (await _albumService.AlbumExists(album.Title, album.Artist))
+            {
+                return BadRequest("Album already exists");
+            }
+
+            _logger.LogInformation($"Attempting to add: {album}");
+            await this._albumService.Add(album);
+            _logger.LogInformation($"Created Album: {album}");
+            return CreatedAtAction(nameof(Post), album);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -17,7 +18,7 @@ namespace WebApplication5.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Released = table.Column<int>(type: "int", nullable: false),
+                    Released = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Artist = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -27,18 +28,19 @@ namespace WebApplication5.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuitarChords",
+                name: "Chords",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Variant = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Shape = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Shape = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Instrument = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GuitarChords", x => x.Id);
+                    table.PrimaryKey("PK_Chords", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +71,7 @@ namespace WebApplication5.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Tuning = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SongId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -83,7 +86,7 @@ namespace WebApplication5.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChordChange",
+                name: "ChordChanges",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -95,28 +98,28 @@ namespace WebApplication5.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChordChange", x => x.Id);
+                    table.PrimaryKey("PK_ChordChanges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChordChange_GuitarChords_ChordId",
+                        name: "FK_ChordChanges_Chords_ChordId",
                         column: x => x.ChordId,
-                        principalTable: "GuitarChords",
+                        principalTable: "Chords",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ChordChange_SongProfiles_SongProfileId",
+                        name: "FK_ChordChanges_SongProfiles_SongProfileId",
                         column: x => x.SongProfileId,
                         principalTable: "SongProfiles",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChordChange_ChordId",
-                table: "ChordChange",
+                name: "IX_ChordChanges_ChordId",
+                table: "ChordChanges",
                 column: "ChordId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChordChange_SongProfileId",
-                table: "ChordChange",
+                name: "IX_ChordChanges_SongProfileId",
+                table: "ChordChanges",
                 column: "SongProfileId");
 
             migrationBuilder.CreateIndex(
@@ -134,10 +137,10 @@ namespace WebApplication5.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChordChange");
+                name: "ChordChanges");
 
             migrationBuilder.DropTable(
-                name: "GuitarChords");
+                name: "Chords");
 
             migrationBuilder.DropTable(
                 name: "SongProfiles");

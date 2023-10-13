@@ -1,9 +1,9 @@
-﻿namespace WebApplication5.Entities
+﻿namespace WebApplication5.Models
 {
     public class ChordChange
     {
         public long Id { get; set; }
-        public GuitarChord Chord { get; set; } = new GuitarChord();
+        public Chord Chord { get; set; } = new Chord();
         public long AtMilliseconds { get; set; }
         public long Duration { get; set; }
     }

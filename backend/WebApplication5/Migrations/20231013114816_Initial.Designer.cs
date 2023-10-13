@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication5;
+using WebApplication5.Data;
 
 #nullable disable
 
 namespace WebApplication5.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231012073843_Initial")]
+    [Migration("20231013114816_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace WebApplication5.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApplication5.Entities.Album", b =>
+            modelBuilder.Entity("WebApplication5.Models.Album", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,8 +41,8 @@ namespace WebApplication5.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Released")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Released")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -53,7 +53,32 @@ namespace WebApplication5.Migrations
                     b.ToTable("Albums");
                 });
 
-            modelBuilder.Entity("WebApplication5.Entities.ChordChange", b =>
+            modelBuilder.Entity("WebApplication5.Models.Chord", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("Instrument")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Shape")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Variant")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chords");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.ChordChange", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,32 +104,10 @@ namespace WebApplication5.Migrations
 
                     b.HasIndex("SongProfileId");
 
-                    b.ToTable("ChordChange");
+                    b.ToTable("ChordChanges");
                 });
 
-            modelBuilder.Entity("WebApplication5.Entities.GuitarChord", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Shape")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Variant")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GuitarChords");
-                });
-
-            modelBuilder.Entity("WebApplication5.Entities.Song", b =>
+            modelBuilder.Entity("WebApplication5.Models.Song", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,7 +137,7 @@ namespace WebApplication5.Migrations
                     b.ToTable("Songs");
                 });
 
-            modelBuilder.Entity("WebApplication5.Entities.SongProfile", b =>
+            modelBuilder.Entity("WebApplication5.Models.SongProfile", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,6 +148,10 @@ namespace WebApplication5.Migrations
                     b.Property<long>("SongId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Tuning")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SongId");
@@ -152,33 +159,33 @@ namespace WebApplication5.Migrations
                     b.ToTable("SongProfiles");
                 });
 
-            modelBuilder.Entity("WebApplication5.Entities.ChordChange", b =>
+            modelBuilder.Entity("WebApplication5.Models.ChordChange", b =>
                 {
-                    b.HasOne("WebApplication5.Entities.GuitarChord", "Chord")
+                    b.HasOne("WebApplication5.Models.Chord", "Chord")
                         .WithMany()
                         .HasForeignKey("ChordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication5.Entities.SongProfile", null)
+                    b.HasOne("WebApplication5.Models.SongProfile", null)
                         .WithMany("Changes")
                         .HasForeignKey("SongProfileId");
 
                     b.Navigation("Chord");
                 });
 
-            modelBuilder.Entity("WebApplication5.Entities.Song", b =>
+            modelBuilder.Entity("WebApplication5.Models.Song", b =>
                 {
-                    b.HasOne("WebApplication5.Entities.Album", "Album")
+                    b.HasOne("WebApplication5.Models.Album", "Album")
                         .WithMany()
                         .HasForeignKey("AlbumId");
 
                     b.Navigation("Album");
                 });
 
-            modelBuilder.Entity("WebApplication5.Entities.SongProfile", b =>
+            modelBuilder.Entity("WebApplication5.Models.SongProfile", b =>
                 {
-                    b.HasOne("WebApplication5.Entities.Song", "Song")
+                    b.HasOne("WebApplication5.Models.Song", "Song")
                         .WithMany()
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -187,7 +194,7 @@ namespace WebApplication5.Migrations
                     b.Navigation("Song");
                 });
 
-            modelBuilder.Entity("WebApplication5.Entities.SongProfile", b =>
+            modelBuilder.Entity("WebApplication5.Models.SongProfile", b =>
                 {
                     b.Navigation("Changes");
                 });
