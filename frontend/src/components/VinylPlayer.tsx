@@ -33,7 +33,7 @@ export function VinylPlayer({ onSongSelected, album }: vinylPlayerProps) {
         return `translate(${x}em, ${y}em)`;
     }
 
-    return <div className='grid grid-cols-3 m-auto w-3/4 h-2/4'>
+    return <div className='grid grid-cols-3 m-auto'>
         <div className='col-span-3'>
             <span className="uppercase text-2xl font-bold block">
                 {album.title}
@@ -57,11 +57,11 @@ export function VinylPlayer({ onSongSelected, album }: vinylPlayerProps) {
             </div>
         </div>
         <div className='col-span-1'>
-                <div className='m-auto text-center h-2/4 overflow-y-scroll'>
+                <div className='m-auto text-center'>
                     {album.songs.map((song, i) => {
                         return <div key={song.title}
                             // style={{ transform: songItemTranslation(i) }}
-                            className={'text-white m-3 bg-gradient-to-r w-96 uppercase font-bold from-pink-500 to-yellow-500 p-4 rounded-md transform transition-transform duration-300 ease-in-out flex justify-between'}>
+                            className={'text-white m-3 bg-gradient-to-r w-full uppercase font-bold from-pink-500 to-yellow-500 p-4 rounded-md transform transition-transform duration-300 ease-in-out flex justify-between'}>
                             <span>{song.title}</span>
                             <button onClick={() => { onSongSelected(song) }}>Play</button>
                         </div>

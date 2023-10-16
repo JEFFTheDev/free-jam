@@ -9,11 +9,13 @@ namespace WebApplication5.Services
     {
         private readonly IAlbumRepository _albumRepository;
         private readonly ISongRepository _songRepository;
+        private readonly ISongProfileRepository _songProfileRepository;
 
-        public AlbumService(IAlbumRepository _albumRepository, ISongRepository _songRepository)
+        public AlbumService(IAlbumRepository albumRepository, ISongRepository songRepository, ISongProfileRepository songProfileRepository)
         {
-            this._albumRepository = _albumRepository;
-            this._songRepository = _songRepository;
+            this._albumRepository = albumRepository;
+            this._songRepository = songRepository;
+            this._songProfileRepository = songProfileRepository;
         }
 
         public async Task Add(AlbumDto album)

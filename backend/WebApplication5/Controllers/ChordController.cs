@@ -20,9 +20,9 @@ namespace WebApplication5.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<DTOs.ChordDto>> Get()
+        public async Task<IEnumerable<DTOs.ChordDto>> Get(string? filter)
         {
-            return await _chordService.GetAll();
+            return await _chordService.GetAll(filter ?? "");
         }
 
         [HttpPost]

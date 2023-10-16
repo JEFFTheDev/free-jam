@@ -28,6 +28,46 @@ namespace WebApplication5.Controllers
             return await this._songProfileService.Get(title, artist);
         }
 
+        [HttpPatch]
+        public async Task<ActionResult<SongProfileDto>> Patch(SongProfileDto songProfile) {
+                        _logger.LogInformation($"Attempting to patch: {songProfile}");
+
+            // if (!_songService.Exists()) {
+
+            // }
+
+            if (songProfile.Song == null)
+            {
+                return BadRequest("Song must be included");
+            }
+
+            if (songProfile.Changes == null)
+            {
+                return BadRequest("Changes must be included");
+            }
+
+            if (songProfile.Chords == null)
+            {
+                return BadRequest("Chords must be included");
+            }
+
+            if (songProfile.Changes!.MaxBy(x => x.ChordIndex)?.ChordIndex + 1 != songProfile.Chords.Count())
+            {
+                return BadRequest("Chord change chord indexes do not match chords");
+            }
+
+            var allExist = await _chordService.ChordsExists(songProfile.Chords.Select(x => x.Shape).ToArray()!);
+            if (!allExist.Item1)
+            {
+                return BadRequest($"Some chords do not exist yet: {allExist.Item2.Aggregate((current, next) => current + ", " + next)}");
+            }
+
+            await this._songProfileService.Update(songProfile);
+
+            _logger.LogInformation($"Updated Song Profile: {songProfile}");
+            return Accepted(nameof(Patch), songProfile);
+        }
+
         [HttpPost]
         public async Task<ActionResult<SongProfileDto>> Post(SongProfileDto songProfile)
         {

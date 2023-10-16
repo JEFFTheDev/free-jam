@@ -17,7 +17,7 @@ export function VinylLibrary({ onVinylSelected: onVinylSelected }: vinylOverview
     }, []);
 
     return <div className='w-full'>
-        <div className="grid grid-cols-4 gap-6 content-center">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 content-center">
             {albums.map((album: any, i: number) => {
                 return <div key={i} className="col-span-1"><VinylCard
                     onVinylSelected={onVinylSelected}

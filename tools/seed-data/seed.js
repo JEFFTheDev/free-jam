@@ -32,7 +32,7 @@ fs.readFile('./chords/chords.json', (err, data) => {
 
   try {
     const jsonObject = JSON.parse(data);
-    jsonObject.chords.forEach((item) => {
+    jsonObject.forEach((item) => {
       console.log(`Adding Chord: ${item}`);
 
       postChord(item);

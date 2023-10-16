@@ -36,9 +36,9 @@ namespace WebApplication5.Services
             return (existingShapes.Count == shapes.Count(), missingChords);
         }
 
-        public async Task<ICollection<ChordDto>> GetAll()
+        public async Task<ICollection<ChordDto>> GetAll(string filter)
         {
-            return await this._chordRepository.Chords.Select(x => new ChordDto{
+            return await this._chordRepository.Chords.Where(x => x.Name.Contains(filter)).Select(x => new ChordDto{
                 Name = x.Name,
                 Shape = x.Shape,
                 Variant = x.Variant,

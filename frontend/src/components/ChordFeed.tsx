@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ChordChange, GuitarChord } from "../api/song.service";
 import { Chord } from "./Chord";
+import { shapeToFrets } from "../utils/utils";
 
 
 interface feedProps {
@@ -40,20 +41,6 @@ export function ChordFeed({ changes, chords, paused, currentChordIndex }: feedPr
             return ['filler', 'filler'];
         }
         return changes.slice(currentChordIndex + 1, currentChordIndex + 1 + adjacent);
-    }
-
-    function shapeToFrets(shape: string): number[] {
-        // The API returns a chord shape as a string, example: 3X0003
-        const asArray = shape.split('');
-        let frets: number[] = [];
-        asArray.forEach((char) => {
-            if (char == "X") {
-                frets.push(-1);
-                return;
-            }
-            frets.push(+char);
-        });
-        return frets;
     }
 
     return <div key={currentChordIndex} className="w-full flex justify-between overflow-hidden">
