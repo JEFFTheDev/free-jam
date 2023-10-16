@@ -5,6 +5,6 @@ namespace WebApplication5.Interfaces
 {
     public interface ISongProfileService {
         Task Add(SongProfileDto songProfile);
-        Task<ICollection<SongProfileDto>> Get(string title, string artist);
+        Task<SongProfileDto> Get(string title, string artist);
     }
 }

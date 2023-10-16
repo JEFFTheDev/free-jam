@@ -80,7 +80,7 @@ export function SongProfilePlayer({ album, song }: songProfilePlayerProps) {
         if (!videoPlayer) {
             return;
         }
-        console.log("next chord!", currentChordIndex, currentSongTime, profile?.changes[currentChordIndex]);
+        console.log("next chord!", currentChordIndex, currentSongTime, profile?.chords[profile?.changes[currentChordIndex].chordIndex]);
 
         // wait for the next chord
         startChordCheck(videoPlayer);
@@ -104,7 +104,7 @@ export function SongProfilePlayer({ album, song }: songProfilePlayerProps) {
             {/* Chord feed */}
             <div className='absolute flex justify-center bg-gradient-to-t from-black to-transparent bottom-0 w-full h-2/4 z-15'>
                 <div className='absolute flex justify-center bg-gradient-to-t from-black to-transparent bottom-10 w-full h-3/4' >
-                    {currentChordIndex >= 0 && <ChordFeed paused={paused} currentChordIndex={currentChordIndex} changes={profile.changes} />}
+                    {currentChordIndex >= 0 && <ChordFeed paused={paused} chords={profile?.chords} currentChordIndex={currentChordIndex} changes={profile.changes} />}
                 </div>
                 <PlayPauseIcon onClick={() => {
                     setPaused(!paused);

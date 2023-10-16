@@ -18,13 +18,20 @@ namespace WebApplication5.Services
 
         public async Task Add(AlbumDto album)
         {
-            this._albumRepository.Albums.Add(new Album
+            var a = new Album
             {
                 Title = album.Title,
                 Artist = album.Artist,
                 ImageUrl = album.ImageUrl,
                 Released = album.ReleaseDate,
-            });
+            };
+            this._albumRepository.Albums.Add(a);
+            this._songRepository.Songs.AddRange(album.Songs.Select(x => new Song{
+                Album = a,
+                Artist = a.Artist,
+                Title = x.Title,
+                VideoId = x.VideoId,
+            }));
             await this._albumRepository.SaveChangesAsync();
         }
 

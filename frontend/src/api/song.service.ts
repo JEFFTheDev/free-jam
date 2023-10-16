@@ -17,13 +17,13 @@ export class Song {
 export class SongProfile {
     song!: Song;
     changes!: ChordChange[];
+    chords!: GuitarChord[];
 }
 
 export class ChordChange {
-    id!: number;
     atMilliseconds!: number;
     duration!: number;
-    chord!: GuitarChord;
+    chordIndex!: number;
 }
 
 export class GuitarChord {

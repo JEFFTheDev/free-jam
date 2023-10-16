@@ -16,23 +16,21 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     });
 });
 
-
-// Add services to the container.
-
 builder.Services.AddControllers();
 builder.WebHost.UseUrls("http://*:5074");
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+
 builder.Services.AddDbContext<WebApplication5.Data.ApplicationDbContext>(options =>
-    options.UseSqlServer("server=localhost,1433;database=free-jam-db;User Id=sa;Password=sSXf2q8gA6jQZ5;trusted_connection=false;Encrypt=False;Persist Security Info=False;"));
-builder.Services.AddTransient<IAlbumRepository, Repository>();
-builder.Services.AddTransient<IChordRepository, Repository>();
-builder.Services.AddTransient<ISongRepository, Repository>();
-builder.Services.AddTransient<ISongProfileRepository, Repository>();
-builder.Services.AddTransient<IAlbumService, AlbumService>();
-builder.Services.AddTransient<ISongProfileService, SongProfileService>();
+    options.UseSqlServer("server=localhost,1433;database=free-jam-db;User Id=sa;Password=sSXf2q8gA6jQZ5;trusted_connection=false;Encrypt=False;Persist Security Info=False;"))
+                .AddTransient<IAlbumRepository, Repository>()
+                .AddTransient<IChordRepository, Repository>()
+                .AddTransient<ISongRepository, Repository>()
+                .AddTransient<ISongProfileRepository, Repository>()
+                .AddTransient<IAlbumService, AlbumService>()
+                .AddTransient<ISongProfileService, SongProfileService>()
+                .AddTransient<IChordService, ChordService>();
 
 var app = builder.Build();
 app.UseCors(x => x

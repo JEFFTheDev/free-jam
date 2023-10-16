@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { ChordChange } from "../api/song.service";
+import { ChordChange, GuitarChord } from "../api/song.service";
 import { Chord } from "./Chord";
 
 
 interface feedProps {
     paused: boolean;
     changes: ChordChange[];
+    chords: GuitarChord[];
     currentChordIndex: number;
 }
 
-export function ChordFeed({ changes, paused, currentChordIndex }: feedProps) {
+export function ChordFeed({ changes, chords, paused, currentChordIndex }: feedProps) {
 
     const positions = 5;
 
@@ -61,7 +62,8 @@ export function ChordFeed({ changes, paused, currentChordIndex }: feedProps) {
             if (change == 'filler') {
                 return <p key={index} className="text-yellow-400 w-1/5"></p>;
             }
-            const chord = change as ChordChange;
+            const chordChange = change as ChordChange;
+            const chord = chords[chordChange.chordIndex];
 
             const isMiddle = index == Math.round(positions / 2) - 1;
             let width = isMiddle ? "w-3/4" : "w-2/6";
@@ -70,14 +72,14 @@ export function ChordFeed({ changes, paused, currentChordIndex }: feedProps) {
             // TODO:
             // - add fingers to API
             // - using chord name + change id doesn't seem like a good idea
-            return <div key={chord.chord.name + chord.id} className={"w-1/5 flex justify-center"} style={{ animation: "slide 200ms linear forwards", animationPlayState: paused ? "paused" : "running" }}>
+            return <div key={chord.name + index} className={"w-1/5 flex justify-center"} style={{ animation: "slide 200ms linear forwards", animationPlayState: paused ? "paused" : "running" }}>
                 <div className={width + " duration-500"} style={{ animation: isMiddle ? "scale 200ms linear forwards" : "", animationPlayState: paused ? "paused" : "running" }}>
-                    <p className="text-center text-white">{chord.chord.name}</p>
-                    <Chord barres={[]} capo={false} fingers={[0, 0, 0, 0, 0, 0]} frets={shapeToFrets(chord.chord.shape)} />
+                    <p className="text-center text-white">{chord.name}</p>
+                    <Chord barres={[]} capo={false} fingers={[0, 0, 0, 0, 0, 0]} frets={shapeToFrets(chord.shape)} />
                     {isMiddle && <div className="relative w-full h-4 bg-gray-900 rounded-full overflow-hidden">
                         <div
                             className="absolute inset-0 bg-stone-50 animate-progress"
-                            style={{ animation: "progressAnimation " + chord.duration + "ms linear forwards", animationPlayState: paused ? "paused" : "running" }}></div>
+                            style={{ animation: "progressAnimation " + chordChange.duration + "ms linear forwards", animationPlayState: paused ? "paused" : "running" }}></div>
                     </div>}
                 </div>
             </div>
