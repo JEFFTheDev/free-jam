@@ -30,7 +30,8 @@ builder.Services.AddDbContext<WebApplication5.Data.ApplicationDbContext>(options
                 .AddTransient<ISongProfileRepository, Repository>()
                 .AddTransient<IAlbumService, AlbumService>()
                 .AddTransient<ISongProfileService, SongProfileService>()
-                .AddTransient<IChordService, ChordService>();
+                .AddTransient<IChordService, ChordService>()
+                .AddTransient<ISongService, SongService>();
 
 var app = builder.Build();
 app.UseCors(x => x

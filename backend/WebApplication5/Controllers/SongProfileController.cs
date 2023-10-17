@@ -11,13 +11,15 @@ namespace WebApplication5.Controllers
     {
         private readonly ILogger<SongProfileController> _logger;
         private readonly ISongProfileService _songProfileService;
+        private readonly ISongService _songService;
         private readonly IChordService _chordService;
 
-        public SongProfileController(ILogger<SongProfileController> logger, ISongProfileService songProfileService, IChordService chordService)
+        public SongProfileController(ILogger<SongProfileController> logger, ISongProfileService songProfileService, ISongService songService, IChordService chordService)
         {
             this._logger = logger;
             this._songProfileService = songProfileService;
             this._chordService = chordService;
+            this._songService = songService;
         }
 
         [HttpGet]
@@ -57,9 +59,10 @@ namespace WebApplication5.Controllers
         {
             _logger.LogInformation($"Attempting to patch: {songProfile}");
 
-            // if (!_songService.Exists()) {
-
-            // }
+            if (!await this._songService.SongExists(songProfile.Song.Title, songProfile.Song.Artist))
+            {
+                return BadRequest($"Song with title '{songProfile.Song.Title}' and artist '{songProfile.Song.Artist}' not found");
+            }
 
             if (songProfile.Changes!.MaxBy(x => x.ChordIndex)?.ChordIndex + 1 != songProfile.Chords.Count())
             {
@@ -83,9 +86,10 @@ namespace WebApplication5.Controllers
         {
             _logger.LogInformation($"Attempting to add: {songProfile}");
 
-            // if (!_songService.Exists()) {
-
-            // }
+            if (!await this._songService.SongExists(songProfile.Song.Title, songProfile.Song.Artist))
+            {
+                return BadRequest($"Song with title '{songProfile.Song.Title}' and artist '{songProfile.Song.Artist}' not found");
+            }
 
             if (songProfile.Changes.MaxBy(x => x.ChordIndex)?.ChordIndex + 1 != songProfile.Chords.Count())
             {
