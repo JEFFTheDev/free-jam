@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebApplication5.Interfaces;
-using WebApplication5.Models;
-using WebApplication5.Services;
 
 namespace WebApplication5.Controllers
 {
@@ -28,16 +25,6 @@ namespace WebApplication5.Controllers
         [HttpPost]
         public async Task<ActionResult<DTOs.ChordDto>> Post(DTOs.ChordDto chord)
         {
-            if (string.IsNullOrWhiteSpace(chord.Name))
-            {
-                return BadRequest("Name cannot be empty");
-            }
-
-            if (string.IsNullOrWhiteSpace(chord.Shape))
-            {
-                return BadRequest("Shape cannot be empty");
-            }
-
             if (chord.Instrument == Enums.Instrument.Unknown)
             {
                 return BadRequest("Instrument must be set");

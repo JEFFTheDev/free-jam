@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using WebApplication5.DTOs;
+using WebApplication5.Exceptions;
 using WebApplication5.Interfaces;
-using WebApplication5.Models;
 
 namespace WebApplication5.Controllers
 {
@@ -25,7 +23,12 @@ namespace WebApplication5.Controllers
 
         [HttpGet]
         public async Task<ActionResult<SongProfileDto>> Get(string title, string artist) {
-            return await this._songProfileService.Get(title, artist);
+            try {
+                var profile = await this._songProfileService.Get(title, artist);
+                return profile;
+            } catch (NotFoundException) {
+                return NotFound($"song profile with title '{title}' and artist '{artist}' not found");
+            } 
         }
 
         [HttpPatch]
@@ -35,21 +38,6 @@ namespace WebApplication5.Controllers
             // if (!_songService.Exists()) {
 
             // }
-
-            if (songProfile.Song == null)
-            {
-                return BadRequest("Song must be included");
-            }
-
-            if (songProfile.Changes == null)
-            {
-                return BadRequest("Changes must be included");
-            }
-
-            if (songProfile.Chords == null)
-            {
-                return BadRequest("Chords must be included");
-            }
 
             if (songProfile.Changes!.MaxBy(x => x.ChordIndex)?.ChordIndex + 1 != songProfile.Chords.Count())
             {
@@ -77,22 +65,7 @@ namespace WebApplication5.Controllers
 
             // }
 
-            if (songProfile.Song == null)
-            {
-                return BadRequest("Song must be included");
-            }
-
-            if (songProfile.Changes == null)
-            {
-                return BadRequest("Changes must be included");
-            }
-
-            if (songProfile.Chords == null)
-            {
-                return BadRequest("Chords must be included");
-            }
-
-            if (songProfile.Changes!.MaxBy(x => x.ChordIndex)?.ChordIndex + 1 != songProfile.Chords.Count())
+            if (songProfile.Changes.MaxBy(x => x.ChordIndex)?.ChordIndex + 1 != songProfile.Chords.Count())
             {
                 return BadRequest("Chord change chord indexes do not match chords");
             }

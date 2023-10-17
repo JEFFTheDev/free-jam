@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.DTOs;
+using WebApplication5.Exceptions;
 using WebApplication5.Interfaces;
 using WebApplication5.Models;
 
@@ -29,14 +30,13 @@ namespace WebApplication5.Services
         {
             var shapes = songProfileDto.Chords.Select(x => x.Shape).ToList();
             var chords = await this._chordRepository.Chords.Where(x => shapes.Contains(x.Shape)).ToListAsync();
-
             var songProfileToUpdate = await this.GetSongProfile(songProfileDto.Song.Title, songProfileDto.Song.Artist);
             songProfileToUpdate.Changes = songProfileDto.Changes.Select((x) => new ChordChange
-                {
-                    AtMilliseconds = x.AtMilliseconds,
-                    Duration = x.Duration,
-                    Chord = chords.Single(y => y.Shape == songProfileDto.Chords.ElementAt(x.ChordIndex).Shape),
-                }).ToList();
+            {
+                AtMilliseconds = x.AtMilliseconds,
+                Duration = x.Duration,
+                Chord = chords.Single(y => y.Shape == songProfileDto.Chords.ElementAt(x.ChordIndex).Shape),
+            }).ToList();
             songProfileToUpdate.Tuning = songProfileToUpdate.Tuning;
             await this._chordRepository.SaveChangesAsync();
             await this._songProfileRepository.SaveChangesAsync();
@@ -95,12 +95,19 @@ namespace WebApplication5.Services
 
         private async Task<SongProfile> GetSongProfile(string title, string artist)
         {
-            return await _songProfileRepository.SongProfiles
+            var songProfile = await _songProfileRepository.SongProfiles
                 .Include(x => x.Song)
                 .Where(x => x.Song.Artist == artist && x.Song.Title == title)
                 .Include(x => x.Changes)
                 .ThenInclude(x => x.Chord)
                 .FirstOrDefaultAsync();
+
+            if (songProfile == null)
+            {
+                throw new NotFoundException($"songProfile with title '{title}' and '{artist}' could not be found");
+            }
+
+            return songProfile;
         }
     }
 }

@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using WebApplication5.DTOs;
 using WebApplication5.Interfaces;
-using WebApplication5.Models;
-using WebApplication5.Services;
 
 namespace WebApplication5.Controllers
 {
@@ -20,29 +18,14 @@ namespace WebApplication5.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<DTOs.AlbumDto>> Get()
+        public async Task<IEnumerable<AlbumDto>> Get()
         {
             return await _albumService.GetAll();
         }
 
         [HttpPost]
-        public async Task<ActionResult<DTOs.AlbumDto>> Post(DTOs.AlbumDto album)
+        public async Task<ActionResult<AlbumDto>> Post(AlbumDto album)
         {
-            if (string.IsNullOrWhiteSpace(album.Artist))
-            {
-                return BadRequest("Artist cannot be empty");
-            }
-
-            if (string.IsNullOrWhiteSpace(album.Title))
-            {
-                return BadRequest("Title cannot be empty");
-            }
-
-            if (album.Songs.Length == 0)
-            {
-                return BadRequest("Songs must be included");
-            }
-
             if (await _albumService.AlbumExists(album.Title, album.Artist))
             {
                 return BadRequest("Album already exists");
