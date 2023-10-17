@@ -7,6 +7,8 @@ const backendBaseUrl = "http://localhost:5074";
 const bucket = "bucket";
 const bucketUsername = "root";
 const bucketPassword = "password";
+const albumsLocation = './data/albums.json';
+const chordsLocation = './data/chords.json';
 
 const minioClient = new Minio.Client({
   endPoint: bucket,
@@ -24,7 +26,7 @@ const minioClient = new Minio.Client({
 // }
 
 // Add all the chords
-fs.readFile('./chords/chords.json', (err, data) => {
+fs.readFile(chordsLocation, (err, data) => {
   if (err) {
     console.error('Error reading the JSON file:', err);
     return;
@@ -43,7 +45,7 @@ fs.readFile('./chords/chords.json', (err, data) => {
 })
 
 
-fs.readFile('data.json', 'utf8', (err, data) => {
+fs.readFile(albumsLocation, 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading the JSON file:', err);
     return;
@@ -68,11 +70,6 @@ fs.readFile('data.json', 'utf8', (err, data) => {
         imageUrl: item.imageUrl.replace(/\.\w+$/, '')
       })
 
-    });
-
-    // Upload all song profiles that were included in the data set
-    jsonObject.songProfiles.forEach((item) => {
-      postSongProfile(item);
     });
   } catch (parseError) {
     console.error('Error parsing JSON:', parseError);

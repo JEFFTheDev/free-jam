@@ -32,7 +32,7 @@ export function VinylPlayer({ onSongSelected, album }: vinylPlayerProps) {
         const y = Math.sin((Math.PI / album.songs.length) * (songIndex - wheelOffset)) * 15;
         return `translate(${x}em, ${y}em)`;
     }
-
+    // TODO: https://tailwindcss.com/docs/grid-column#starting-and-ending-lines
     return <div className='grid grid-cols-3 m-auto'>
         <div className='col-span-3'>
             <span className="uppercase text-2xl font-bold block">
