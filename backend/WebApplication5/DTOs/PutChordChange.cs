@@ -1,13 +1,20 @@
 using System.ComponentModel.DataAnnotations;
+using WebApplication5.Models;
 
 namespace WebApplication5.DTOs
 {
-    public class ChordChangeDto
+    public class PutChordChangeDto
     {
         public long? Id { get; set; }
+
+        [Required]
+        public string SongTitle { get; set; } = "";
         
         [Required]
-        public int ChordIndex { get; set; }
+        public string SongArtist { get; set; } = "";
+
+        [Required]
+        public ChordDto Chord { get; set; } = new ChordDto();
 
         [Required]
         public long AtMilliseconds { get; set; }

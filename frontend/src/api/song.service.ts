@@ -21,6 +21,7 @@ export class SongProfile {
 }
 
 export class ChordChange {
+    id?: number;
     atMilliseconds!: number;
     duration!: number;
     chordIndex!: number;

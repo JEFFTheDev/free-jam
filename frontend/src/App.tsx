@@ -6,6 +6,7 @@ import { Album, Song } from './api/song.service';
 import BeakerIcon from '@heroicons/react/24/solid/BeakerIcon';
 import { Cog6ToothIcon, GlobeAltIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import { SongProfileEditor } from './components/SongProfileEditor';
+import { SongTimeline } from './components/SongTimeline';
 
 function App() {
 
@@ -14,6 +15,17 @@ function App() {
   const [currentSong, setCurrentSong] = useState<Song>();
 
   function view() {
+  //   return withNavigation( <SongTimeline
+  //     videoDurationSeconds={30}
+  //     album={{
+  //     artist: "Pixies",
+  //     imageUrl: "",
+  //     releaseDate: "",
+  //     songs: [],
+  //     title: "Doolittle"
+  // }} song={{
+  //     title: "Debaser",
+  // }} />); 
     switch (currentView) {
       case "VinylLibrary":
         return withNavigation(<VinylLibrary onVinylSelected={(album: Album) => {
@@ -34,7 +46,7 @@ function App() {
         if (!currentSong || !currentAlbum) {
           return <p>no song or album</p>
         }
-        return <SongProfilePlayer album={currentAlbum} song={currentSong} />
+        return <SongProfilePlayer onLoaded={(e) => {}} className='h-screen w-screen' album={currentAlbum} song={currentSong} />
     }
   }
 

@@ -26,6 +26,45 @@ namespace WebApplication5.Services
             this._logger = logger;
         }
 
+        public async Task<ChordChangeDto> UpsertChordChangeToSongProfile(PutChordChangeDto chordChange)
+        {
+            var songProfile = await this.GetSongProfile(chordChange.SongTitle, chordChange.SongArtist);
+            ChordChange upsertedChordChange;
+            if (chordChange.Id != null)
+            {
+                var existing = await this._chordRepository.ChordChanges.SingleOrDefaultAsync(x => x.Id == chordChange.Id);
+                if (existing == null)
+                {
+                    throw new NotFoundException($"Chord change with id '{chordChange.Id}' not found");
+                }
+
+                existing.Chord = this._chordRepository.Chords.Single(x => x.Shape == chordChange.Chord.Shape);
+                existing.AtMilliseconds = chordChange.AtMilliseconds;
+                existing.Duration = chordChange.Duration;
+                upsertedChordChange = existing;
+            }
+            else
+            {
+                var newChordChange = new ChordChange
+                {
+                    AtMilliseconds = chordChange.AtMilliseconds,
+                    Duration = chordChange.Duration,
+                    Chord = this._chordRepository.Chords.Single(x => x.Shape == chordChange.Chord.Shape),
+                };
+                songProfile.Changes.Add(newChordChange);
+                upsertedChordChange = newChordChange;
+            }
+
+            await this._songProfileRepository.SaveChangesAsync();
+            await this._chordRepository.SaveChangesAsync();
+            return new ChordChangeDto
+            {
+                Id = upsertedChordChange.Id,
+                Duration = upsertedChordChange.Duration,
+                AtMilliseconds = upsertedChordChange.AtMilliseconds,
+            };
+        }
+
         public async Task Update(SongProfileDto songProfileDto)
         {
             var shapes = songProfileDto.Chords.Select(x => x.Shape).ToList();
@@ -86,6 +125,7 @@ namespace WebApplication5.Services
                 }).ToList(),
                 Changes = songProfile.Changes.Select(x => new ChordChangeDto
                 {
+                    Id = x.Id,
                     AtMilliseconds = x.AtMilliseconds,
                     ChordIndex = chords.Where(y => y.Shape == x.Chord.Shape).Select(x => chords.IndexOf(x)).First(),
                     Duration = x.Duration,

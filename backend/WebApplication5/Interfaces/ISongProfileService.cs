@@ -7,5 +7,6 @@ namespace WebApplication5.Interfaces
         Task Add(SongProfileDto songProfile);
         Task<SongProfileDto> Get(string title, string artist);
         Task Update(SongProfileDto songProfileDto);
+        Task<ChordChangeDto> UpsertChordChangeToSongProfile(PutChordChangeDto chordChange);
     }
 }

@@ -7,6 +7,7 @@ import { Chord } from './Chord';
 import { shapeToFrets } from '../utils/utils';
 import { VinylCard } from './VinylCard';
 import { SongProfilePlayer } from './SongProfilePlayer';
+import { SongTimeline } from './SongTimeline';
 
 interface songProfileEditorProps {
 
@@ -30,6 +31,7 @@ export function SongProfileEditor({ }: songProfileEditorProps) {
     const triggerRefreshChordsAfterMs = 250;
     const [chordsFiltered, setChordsFiltered] = useState<GuitarChord[]>([]);
     const [refreshChordsTimer, setRefreshChordsTimer] = useState<NodeJS.Timeout>();
+    const [videoDurationSeconds, setVideoDurationSeconds] = useState<number>(0);
 
     function onFilterChange(newFilter: string) {
         if (refreshChordsTimer) {
@@ -47,7 +49,20 @@ export function SongProfileEditor({ }: songProfileEditorProps) {
             <VinylCard onVinylSelected={() => { }} album={album} />
         </div>
         <div className='col-span-2'>
-            <SongProfilePlayer album={album} song={song} />
+            <SongProfilePlayer onLoaded={(e) => { setVideoDurationSeconds(e.target.getDuration()) }} className='w-full h-full' album={album} song={song} />
+        </div>
+        <div className='col-span4'>
+            <SongTimeline
+                videoDurationSeconds={videoDurationSeconds}
+            album={{
+                artist: "Nirvana",
+                imageUrl: "",
+                releaseDate: "",
+                songs: [],
+                title: "Bleach"
+            }} song={{
+                title: "About a Girl",
+            }} />
         </div>
         <div className='col-span-4'>
             <div className="relative">

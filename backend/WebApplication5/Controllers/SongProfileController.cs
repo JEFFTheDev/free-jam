@@ -20,20 +20,42 @@ namespace WebApplication5.Controllers
             this._chordService = chordService;
         }
 
-
         [HttpGet]
-        public async Task<ActionResult<SongProfileDto>> Get(string title, string artist) {
-            try {
+        public async Task<ActionResult<SongProfileDto>> Get(string title, string artist)
+        {
+            try
+            {
                 var profile = await this._songProfileService.Get(title, artist);
                 return profile;
-            } catch (NotFoundException) {
+            }
+            catch (NotFoundException)
+            {
                 return NotFound($"song profile with title '{title}' and artist '{artist}' not found");
-            } 
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ChordChangeDto>> PutChordChange(PutChordChangeDto chordChange)
+        {
+            if (!await this._chordService.ChordExists(chordChange.Chord.Shape))
+            {
+                return BadRequest($"Chord with shape {chordChange.Chord.Shape} not found");
+            }
+
+            try
+            {
+                return await this._songProfileService.UpsertChordChangeToSongProfile(chordChange);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound($"song profile with title '{chordChange.SongTitle}' and artist '{chordChange.SongArtist}' was not found");
+            }
         }
 
         [HttpPatch]
-        public async Task<ActionResult<SongProfileDto>> Patch(SongProfileDto songProfile) {
-                        _logger.LogInformation($"Attempting to patch: {songProfile}");
+        public async Task<ActionResult<SongProfileDto>> Patch(SongProfileDto songProfile)
+        {
+            _logger.LogInformation($"Attempting to patch: {songProfile}");
 
             // if (!_songService.Exists()) {
 

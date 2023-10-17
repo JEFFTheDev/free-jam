@@ -6,10 +6,12 @@ import { ChordFeed } from './ChordFeed';
 import { PlayPauseIcon } from '@heroicons/react/24/solid'
 
 interface songProfilePlayerProps {
+    className: string;
     album: Album;
     song: Song;
+    onLoaded(e: any): void;
 }
-export function SongProfilePlayer({ album, song }: songProfilePlayerProps) {
+export function SongProfilePlayer({ album, song, className, onLoaded }: songProfilePlayerProps) {
     const [profile, setSongProfile] = useState<SongProfile>();
     const [paused, setPaused] = useState<boolean>(true);
     const [videoPlayer, setVideoPlayer] = useState<YouTubePlayer>();
@@ -21,6 +23,7 @@ export function SongProfilePlayer({ album, song }: songProfilePlayerProps) {
         if (!videoPlayer) {
             return;
         }
+
         if (paused === true) {
             videoPlayer.pauseVideo();
         }
@@ -68,6 +71,7 @@ export function SongProfilePlayer({ album, song }: songProfilePlayerProps) {
     function onReady(event: YouTubeEvent<any>) {
         setVideoPlayer(event.target);
         startChordCheck(event.target);
+        onLoaded(event);
     }
 
     useEffect(() => {
@@ -86,13 +90,11 @@ export function SongProfilePlayer({ album, song }: songProfilePlayerProps) {
         startChordCheck(videoPlayer);
     }, [currentChordIndex]);
 
-    return <div className='h-full w-full'>
+    return <div className={className}>
         {/* Background video */}
-        {profile && profile.song.videoId && <div className="relative h-full w-full">
+        {profile && profile.song.videoId && <div className="relative w-full h-full">
             <div className="w-full h-full">
-                <YouTube videoId={profile.song.videoId} opts={{
-                    height: window.innerHeight,
-                    width: window.innerWidth,
+                <YouTube className='w-full h-full' iframeClassName='w-full h-full' videoId={profile.song.videoId} opts={{
                     playerVars: {
                         mute: 1,
                         controls: 0,
