@@ -2,7 +2,6 @@
 
 Project started with the goal to help beginner guitar players to improve their playing and learn new songs. Users can select an album and choose which song they want to learn. The song is then played the chords and timings are displayed on screen.
 
-![Alt text](./docs/assets/album.png)
 ![Alt text](./docs/assets/chords.png)
 
 ## Setup
