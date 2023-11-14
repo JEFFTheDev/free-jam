@@ -26,7 +26,8 @@ services:
     ports:
       - 9090:9090
     command: server /data --console-address ":9090"
-  # backend:
+  # TODO: dotnet watch shows some weird behaviour when run in docker...
+  # backend: 
   #     build:
   #       context: ./backend
   #       dockerfile: Dockerfile

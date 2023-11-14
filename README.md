@@ -1,157 +1,29 @@
-# free-jam
+# Free Jam
 
-possible names:
-- Riffelation
-- Jukebox Jam
-- Rifforia
+Project started with the goal to help beginner guitar players to improve their playing and learn new songs. Users can select an album and choose which song they want to learn. The song is then played the chords and timings are displayed on screen.
 
+![Alt text](./docs/assets/album.png)
+![Alt text](./docs/assets/chords.png)
 
-# Data models
+## Setup
 
-```json
-// Album
-{
-  "title": "string",
-  "artist": "string",
-  "imageUrl": "string",
-  "releaseDate": "2023-10-12T12:42:33.478Z",
-  "songs": [
-    {
-      "title": "string",
-      "videoId": "string"
-    }
-  ]
-}
+- Frontend is made in React (typescript)
+- Backend is made in .NET 7
+- At first launch, the docker compose will insert some test data
+- Album covers are stored in a S3 bucket
+- Data about the albums is stored in a MSSQL database
+- A reverse proxy is used to allow access to the above mentioned tools
+  - /bucket for access to the images
+  - /dev/bucket for access to the UI for the S3 bucket
+  - frontend is available at root (localhost)
+
+> **_NOTE:_** The backend is currently not included in docker compose due to some issues with dotnet watch. Run the backend seperately with dotnet watch
+> 
+```bash
+docker compose up -d
 ```
 
-
-https://chordify.net/pages/technology-algorithm-explained/
-Data set
-
-[
-    {
-        "title": "Adore",
-        "artist": "The Smashing Pumpkins",
-        "date": "",
-        "coverImage": "adore.jpg",
-        "songs": [
-            "To Sheila",
-            "Ava Adore",
-            "Daphne Descends",
-            "Tear",
-            "Crestfallen"
-        ]
-    },
-    {
-        "title": "Bleach",
-        "artist": "Nirvana",
-        "date": "",
-        "coverImage": "bleach.jpg",
-        "songs": [
-            "Blew",
-            "Floyd the Barber",
-            "About a Girl",
-            "School",
-            "Love Buzz"
-        ]
-    },
-    {
-        "title": "OK Computer",
-        "artist": "Radiohead",
-        "date": "",
-        "coverImage": "ok-computer.jpg",
-        "songs": [
-            "Airbag",
-            "Paranoid Android",
-            "Subterranean Homesick Alien",
-            "Exit Music (For a Film)",
-            "Let Down"
-        ]
-    },
-    {
-        "title": "Doolittle",
-        "artist": "Pixies",
-        "date": "",
-        "coverImage": "doolittle.jpg",
-        "songs": [
-            "Debaser",
-            "Tame",
-            "Wave of Mutilation",
-            "Here Comes Your Man",
-            "Dead"
-        ]
-    },
-    {
-        "title": "Together Through Time",
-        "artist": "TWRP",
-        "date": "",
-        "coverImage": "together-through-time.jpg",
-        "songs": [
-            "Synthesize Her",
-            "Phantom Racer",
-            "Atomic Karate",
-            "Believe in Your Dreams",
-            "Life Party"
-        ]
-    },
-    {
-        "title": "In Rainbows",
-        "artist": "Radiohead",
-        "date": "",
-        "coverImage": "in-rainbows.png",
-        "songs": [
-            "15 Step",
-            "Bodysnatchers",
-            "Nude",
-            "Weird Fishes/Arpeggi",
-            "All I Need"
-        ]
-    },
-    {
-        "title": "Mellon Collie and the Infinite Sadness",
-        "artist": "The Smashing Pumpkins",
-        "date": "",
-        "coverImage": "mellon-collie.jpg",
-        "songs": [
-            "Mellon Collie and the Infinite Sadness",
-            "Tonight, Tonight",
-            "Jellybelly",
-            "Zero",
-            "Bullet with Butterfly Wings"
-        ]
-    },
-    {
-        "title": "The Colour and the Shape",
-        "artist": "Foo Fighters",
-        "date": "",
-        "coverImage": "colour-and-shape.jpg",
-        "songs": [
-            "Doll",
-            "Monkey Wrench",
-            "Hey, Johnny Park!",
-            "My Poor Brain",
-            "Wind Up"
-        ]
-    }
-]
-
-
-
-{
-  "id": 0,
-  "song": {
-    "title": "string",
-    "artist": "string",
-    "videoId": "string"
-  },
-  "changes": [
-    {
-      "chordIndex": 0,
-      "atMilliseconds": 0,
-      "duration": 0
-    }
-  ],
-  "chords": [
-    
-  ],
-}
+TODO:
+- Song Editor
+- Responsiveness is average
+- Fix dotnet watch in docker compose
